@@ -1,5 +1,7 @@
 import flatpickr from "flatpickr"; 
 import "flatpickr/dist/flatpickr.min.css";
+import Notiflix from 'notiflix';
+
 
 
 const inputDateTime = document.querySelector("input#datetime-picker");
@@ -39,7 +41,8 @@ const options = {
         console.log(dateChoosen);
       if (dateChoosen <= options.defaultDate) {
           startButton.setAttribute('disabled', true);
-          alert("Please choose a date in the future");
+          Notiflix.Notify.failure('Please choose a date in the future');
+        //   alert("Please choose a date in the future");
       } else { startButton.removeAttribute('disabled') };
   },
 };
@@ -70,8 +73,12 @@ function convertMs(ms) {
 
 startButton.addEventListener('click', onStartButtonClick);
 
+// inputDateTime.setAttribute('disabled', false);
+
 function onStartButtonClick() {
     timerProperty.start();
+    inputDateTime.setAttribute('disabled', true);
+    startButton.setAttribute('disabled', true);
 }
 
 
@@ -94,7 +101,14 @@ const timerProperty = {
             minutes.textContent = differenceInTime.minutes;
             seconds.textContent = differenceInTime.seconds;
             if ((dateChoosen - Date.now()) < 1000) {
+                setTimeout(function () {
+                    location.reload();
+                }, 3000)
                 clearInterval(this.intervalId);
+                // inputDateTime.removeAttribute('disabled');
+                // startButton.removeAttribute('disabled');
+                Notiflix.Notify.success('Time is out');
+                
         }
         }, 1000);
     }
