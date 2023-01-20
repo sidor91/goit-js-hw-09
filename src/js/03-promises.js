@@ -29,14 +29,13 @@ function onSubmitButtonClick (e) {
   const delay = Number(delayField.value);
   const step = Number(stepField.value);
 
-  for (let i = 0; i < position; i += 1) {
-  createPromise(i, (delay + step*i))
+  for (let i = 1; i <= position; i += 1) {
+  createPromise(i, (delay + step*(i-1)))
   .then(({ position, delay }) => {
-    setTimeout(() => {Notiflix.Notify.success(`✅ Fulfilled promise ${(position + 1)} in ${delay}ms`);}, delay)
-    
+    Notiflix.Notify.success(`✅ Fulfilled promise ${(position)} in ${delay}ms`);
   })
   .catch(({ position, delay }) => {
-    setTimeout(() => {Notiflix.Notify.failure(`❌ Rejected promise ${(position + 1)} in ${delay}ms`)}, delay)
+    Notiflix.Notify.failure(`❌ Rejected promise ${(position)} in ${delay}ms`)
   });
   }
 }
