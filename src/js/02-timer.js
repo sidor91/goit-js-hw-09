@@ -76,9 +76,28 @@ startButton.addEventListener('click', onStartButtonClick);
 // inputDateTime.setAttribute('disabled', false);
 
 function onStartButtonClick() {
-    timerProperty.start();
+    // timerProperty.start();
     inputDateTime.setAttribute('disabled', true);
     startButton.setAttribute('disabled', true);
+
+    const intervalId = setInterval(() => {
+            const differenceInTime = convertMs(dateChoosen - Date.now());
+            // console.log(differenceInTime);
+            days.textContent = differenceInTime.days;
+            hours.textContent = differenceInTime.hours;
+            minutes.textContent = differenceInTime.minutes;
+            seconds.textContent = differenceInTime.seconds;
+            if ((dateChoosen - Date.now()) < 1000) {
+                setTimeout(function () {
+                    location.reload();
+                }, 2000)
+                clearInterval(intervalId);
+                // inputDateTime.removeAttribute('disabled');
+                // startButton.removeAttribute('disabled');
+                Notiflix.Notify.success('Time is out');
+                
+        }
+        }, 1000);
 }
 
 
@@ -90,27 +109,27 @@ function addLeadingZero(value) {
     
 
 
-const timerProperty = {
-    intervalId: null,
-    start() {
-        this.intervalId = setInterval(() => {
-            const differenceInTime = convertMs(dateChoosen - Date.now());
-            console.log(differenceInTime);
-            days.textContent = differenceInTime.days;
-            hours.textContent = differenceInTime.hours;
-            minutes.textContent = differenceInTime.minutes;
-            seconds.textContent = differenceInTime.seconds;
-            if ((dateChoosen - Date.now()) < 1000) {
-                setTimeout(function () {
-                    location.reload();
-                }, 3000)
-                clearInterval(this.intervalId);
-                // inputDateTime.removeAttribute('disabled');
-                // startButton.removeAttribute('disabled');
-                Notiflix.Notify.success('Time is out');
+// const timerProperty = {
+//     intervalId: null,
+//     start() {
+//         this.intervalId = setInterval(() => {
+//             const differenceInTime = convertMs(dateChoosen - Date.now());
+//             console.log(differenceInTime);
+//             days.textContent = differenceInTime.days;
+//             hours.textContent = differenceInTime.hours;
+//             minutes.textContent = differenceInTime.minutes;
+//             seconds.textContent = differenceInTime.seconds;
+//             if ((dateChoosen - Date.now()) < 1000) {
+//                 setTimeout(function () {
+//                     location.reload();
+//                 }, 2000)
+//                 clearInterval(this.intervalId);
+//                 // inputDateTime.removeAttribute('disabled');
+//                 // startButton.removeAttribute('disabled');
+//                 Notiflix.Notify.success('Time is out');
                 
-        }
-        }, 1000);
-    }
-}
+//         }
+//         }, 1000);
+//     }
+// }
 
