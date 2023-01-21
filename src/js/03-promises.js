@@ -5,6 +5,7 @@ const delayField = document.querySelector('input[name="delay"]');
 const stepField = document.querySelector('input[name="step"]');
 const amountField = document.querySelector('input[name="amount"]');
 const submitButon = document.querySelector('button');
+const form = document.querySelector('.form');
 
 
 function createPromise(position, delay) {
@@ -21,16 +22,17 @@ function createPromise(position, delay) {
   )
 }
 
-submitButon.addEventListener('click', onSubmitButtonClick);
+form.addEventListener('submit', onFormSubmit);
 
-function onSubmitButtonClick (e) {
+function onFormSubmit (e) {
   e.preventDefault();
-  const position = Number(amountField.value);
-  const delay = Number(delayField.value);
-  const step = Number(stepField.value);
+  const { delay, step, amount } = e.currentTarget.elements;
+  const positionNumber = Number(amount.value);
+  const delayNumber = Number(delay.value);
+  const stepNumber = Number(step.value);
 
-  for (let i = 1; i <= position; i += 1) {
-  createPromise(i, (delay + step*(i-1)))
+  for (let i = 1; i <= positionNumber; i += 1) {
+  createPromise(i, (delayNumber + stepNumber*(i-1)))
   .then(({ position, delay }) => {
     Notiflix.Notify.success(`✅ Fulfilled promise ${(position)} in ${delay}ms`);
   })
@@ -38,6 +40,8 @@ function onSubmitButtonClick (e) {
     Notiflix.Notify.failure(`❌ Rejected promise ${(position)} in ${delay}ms`)
   });
   }
+
+  form.reset();
 }
 
 
